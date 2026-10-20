@@ -27,6 +27,8 @@ extension EntitlementContainer {
         InterAppAudioEntitlement.self,
         WirelessAccessoryEntitlement.self,
         WiFiAwareEntitlement.self,
+        IncreasedMemoryLimitEntitlement.self,
+        ExtendedVirtualAddressingEntitlement.self,
         HomeKitEntitlement.self,
         HealthKitEntitlement.self,
     ]
@@ -151,6 +153,20 @@ public struct InterAppAudioEntitlement: Entitlement, RawRepresentable {
 
 public struct WirelessAccessoryEntitlement: Entitlement, RawRepresentable {
     public static let identifier = "com.apple.external-accessory.wireless-configuration"
+
+    public var rawValue: Bool
+    public init(rawValue: Bool) { self.rawValue = rawValue }
+}
+
+public struct IncreasedMemoryLimitEntitlement: Entitlement, RawRepresentable {
+    public static let identifier = "com.apple.developer.kernel.increased-memory-limit"
+
+    public var rawValue: Bool
+    public init(rawValue: Bool) { self.rawValue = rawValue }
+}
+
+public struct ExtendedVirtualAddressingEntitlement: Entitlement, RawRepresentable {
+    public static let identifier = "com.apple.developer.kernel.extended-virtual-addressing"
 
     public var rawValue: Bool
     public init(rawValue: Bool) { self.rawValue = rawValue }

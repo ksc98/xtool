@@ -144,3 +144,15 @@ extension WiFiAwareEntitlement: EntitlementWithCapability {
         DeveloperServicesCapability(rawName: "WIFI_AWARE", isFree: false)
     }
 }
+
+extension IncreasedMemoryLimitEntitlement: EntitlementWithCapability {
+    var capability: DeveloperServicesCapability {
+        DeveloperServicesCapability(rawName: "INCREASED_MEMORY_LIMIT", isFree: true)
+    }
+}
+
+extension ExtendedVirtualAddressingEntitlement: EntitlementWithCapability {
+    var capability: DeveloperServicesCapability {
+        DeveloperServicesCapability(rawName: "EXTENDED_VIRTUAL_ADDRESSING", isFree: true)
+    }
+}
