@@ -91,8 +91,12 @@ public struct DeveloperServicesAddAppOperation: DeveloperServicesOperation {
             uniquingKeysWith: { $1 }
         )
 
+        // Only ever add: what the portal set on this App ID stays. Push's Broadcast
+        // Capability is a portal-only setting no entitlement states, so "wanted" can't
+        // cover it, and a build without entitlements (an unsigned Xcode build) isn't a
+        // request to remove a capability.
         for (typ, cap) in existingCapabilities {
-            if let wantedSettings = wantedCapabilities[typ] {
+            if let wantedSettings = wantedCapabilities[typ], !wantedSettings.isEmpty {
                 if wantedSettings != (cap.attributes?.settings ?? []) {
                     _ = try await context.developerAPIClient.bundleIdCapabilitiesUpdateInstance(
                         path: .init(id: cap.id),
@@ -110,14 +114,6 @@ public struct DeveloperServicesAddAppOperation: DeveloperServicesOperation {
                         )
                     )
                     .ok
-                }
-            } else {
-                // DeveloperServices doesn't allow deleting these capabilities
-                let requiredCapabilities: Set<Components.Schemas.CapabilityType.Value1Payload> = [.inAppPurchase]
-                if let capType = cap.attributes?.capabilityType?.value1, !requiredCapabilities.contains(capType) {
-                    _ = try await context.developerAPIClient
-                        .bundleIdCapabilitiesDeleteInstance(path: .init(id: cap.id))
-                        .noContent
                 }
             }
         }
